@@ -18,7 +18,11 @@ public class Dish {
         return ingredients;
     }
     public double calculateTotalCalories(){
-f
+        double totalCalories = 0.0;
+        for (Ingredient ingredient : ingredients){
+            totalCalories += ingredient.calculateCalories();
+        }
+        return totalCalories;
     }
 
 
