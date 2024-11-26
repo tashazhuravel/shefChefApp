@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public abstract class Product implements Serializable {
+public abstract class Product {
     protected String name;
     protected int calories;
 
