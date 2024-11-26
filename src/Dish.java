@@ -17,7 +17,9 @@ public class Dish {
     public List<Ingredient> getIngredients(){
         return ingredients;
     }
+    public double calculateTotalCalories(){
 
+    }
 
 
 }
