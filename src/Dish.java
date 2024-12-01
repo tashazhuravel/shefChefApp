@@ -2,25 +2,28 @@
 import java.util.List;
 
 public class Dish {
-    private String name;
-    private List<Ingredient> ingredients;
+    private final String name;
+    private final List<Ingredient> ingredients;
+    double totalCalories = 0.0;
 
-    public Dish(String name, List<Ingredient> ingredients){
+    public Dish(String name, List<Ingredient> ingredients) {
         this.name = name;
         this.ingredients = ingredients;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public List<Ingredient> getIngredients(){
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
-    public double calculateTotalCalories(){
-        double totalCalories = 0.0;
-        for (Ingredient ingredient : ingredients){
-            totalCalories += ingredient.calculateCalories();
+
+    public double calculateTotalCalories() {
+        if (totalCalories == 0) {
+            for (Ingredient ingredient : ingredients) {
+                totalCalories += ingredient.calculateCalories();
+            }
         }
         return totalCalories;
     }

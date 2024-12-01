@@ -4,7 +4,7 @@ import java.util.List;
 public class Ingredient extends Product {
     protected double count; // количество: штуки, стакан, ложка и т.д.
     protected String units; // вес и объем гр, кг, мл, л и т.д.
-    private static List<Ingredient> ingredients = new ArrayList<>(); //Общий список ингредиентов
+    private static final List<Ingredient> ingredients = new ArrayList<>(); //Общий список ингредиентов
 
     public Ingredient(String name, int calories, double count, String units){
         super(name, calories);
@@ -28,6 +28,6 @@ public class Ingredient extends Product {
 
     //рассчитать калорийность ингридента на 100гр
     public double calculateCalories(){
-        return (getCalories() * units / 100);
+        return (getCalories() * count / 100);
     }
 }
