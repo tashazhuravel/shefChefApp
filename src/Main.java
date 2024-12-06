@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +12,7 @@ public class Main {
         stake.getIngredients().add(ingredient);*/
         // Основное меню
         Scanner scanner = new Scanner(System.in);
-        RecipeManager recipeManager = new RecipeManager();
+        CookBook cookBook = new CookBook();
         System.out.println("Введите ингредиенты (введите 'Стоп', чтобы завершить ввод):");
         while (true) {
             System.out.println("Основное меню");
@@ -27,20 +26,20 @@ public class Main {
             String choice = scanner.nextLine();
             switch (choice) {
                 case "1":
-                    addRecipe(scanner, recipeManager);
+                    addRecipe(scanner, cookBook);
                     break;
                 case "2":
-                    viewRecipes(recipeManager);
+                    viewRecipes(cookBook);
                     break;
-              /*  case "3":
+                case "3":
                     System.out.println("Введите название рецепта для сохранения: ");
                     String saveRecipe = scanner.nextLine();
-                    recipeManager.saveRecipe(saveRecipe);
+                    cookBook.saveRecipe(saveRecipe);
                     System.out.println("Рецепт успешно сохранен" + saveRecipe + ".");
                     break;
                 case "4":
-                    searchByCalories(scanner, recipeManager);
-                    break;*/
+                    searchByCalories(scanner, cookBook);
+                    break;
                 case "5":
                     System.out.println("Выход из программы.");
                     scanner.close();
@@ -54,19 +53,50 @@ public class Main {
     }
 
     // Добавление блюда
-    private static void addRecipe(Scanner scanner, RecipeManager recipeManager) {
+    private static void addRecipe(Scanner scanner, CookBook cookBook) {
         System.out.println("Введите название блюда: ");
         String dishName = scanner.nextLine();
         Recipe recipe = new Recipe(dishName);
-        recipeManager.addRecipe(recipe);
 
+        while (true) {
+            System.out.println("Введите название ингредиента или Stop для завершения: ");
+            String name = scanner.nextLine();
+            if (name.equalsIgnoreCase("Stop")) {
+                break;
+            }
+            System.out.println("Введите калорийность ингредиента: ");
+            int calories = scanner.nextInt();
+
+            System.out.println("Введите количество (цифра): ");
+            double count = scanner.nextDouble();
+
+            System.out.println("Введите единицы измерения, напрмер вес и объем гр, кг, мл, л и т.д: ");
+            String units = scanner.nextLine();
+
+            Ingredient ingredient = new Ingredient(name, calories, count, units);
+            recipe.addIngredient(ingredient);
+        }
+        cookBook.addRecipe(recipe);
+        System.out.println("Рецепт добавлен.");
     }
+
     // Просмотр рецепта
-    private static void viewRecipes(RecipeManager recipeManager){
-        List<Recipe> recipes = recipeManager.getRecipes();
-        for (Recipe recipe : recipes){
-            System.out.println(recipe.getDishName());
+    private static void viewRecipes(CookBook cookBook) {
+        List<Recipe> recipes = cookBook.getRecipes();
+        if (recipes.isEmpty()) {
+            System.out.println("Рецепт не найден. Книга рецептов пуста");
+        } else {
+            for (Recipe recipe : recipes) {
+                System.out.println("Рецепт для блюда: " + recipe.getDishName());
+                System.out.println("Ингредиенты: ");
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    System.out.println("- " + ingredient.getName() + " (" + ingredient.getCalories() + " ккал)");
+                }
+                System.out.println("Общая каолорийность блюда: " + recipe.totalCalories);
+            }
         }
     }
+
+
 
 }
